@@ -43,9 +43,9 @@ export default function Footer() {
   return (
     <footer className="m-auto max-w-screen-2xl p-6 text-white">
       <div
-        className="space-y-20 rounded-lg bg-primary px-12 py-14 pb-16"
+        className="space-y-20 rounded-2xl bg-primary px-12 py-14 pb-16"
         style={{
-          backgroundImage: "url(./footer.png)",
+          backgroundImage: "url(./blue-bg.png)",
           backgroundSize: "cover",
         }}
       >
@@ -66,12 +66,12 @@ export default function Footer() {
           </div>
         </div>
         <hr />
-        <div className="flex items-center justify-between">
-          <p className="text-xl">
+        <div className="flex items-center 2xl:justify-between flex-col 2xl:flex-row">
+          <p className="text-xl order-2 2xl:order-1">
             {year} Buddy on board. All rights reserved. Trademark registration
             in progress.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 order-1 2xl:order-2">
             {COMPANY_ITEMS.map((item) => (
               <Link key={item.label} href={item.href} className="text-xl">
                 {item.label}

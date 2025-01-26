@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${merriweather.variable} ${DMSans.variable} font-sans antialiased`}
+        className={`${merriweather.variable} ${DMSans.variable} font-sans antialiased bg-[#F5F5F5]`}
       >
         <Navbar />
         {children}

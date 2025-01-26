@@ -24,7 +24,7 @@ export default function Navbar() {
         <Link href="/" className="font-bold text-2xl text-white">
           <img src="./logo.svg" alt="logo" className="h-6" />
         </Link>
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-9 2xl:gap-12">
           {NAVBAR_ITEMS.map((item) => (
             <Link
               key={item.label}
