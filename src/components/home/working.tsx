@@ -267,9 +267,9 @@ export default function Working() {
             A Buddy Courier{" "}
           </Button>
         </div>
-        <div className="justify-center items-center inline-flex max-w-5xl m-auto">
+        <div className="flex flex-col gap-4 md:flex-row justify-end items-center max-w-5xl w-full m-auto md:relative md:h-[468px]">
           <div
-            className="h-[468px] aspect-[4/3] relative bg-[#0d53e0] rounded-2xl"
+            className=" bg-primary rounded-2xl md:absolute md:left-0 md:inset-y-0 md:right-[40%] aspect-[577/309] w-full relative"
             style={{
               backgroundImage: "url(./blue-bg.png)",
               backgroundSize: "cover",
@@ -289,7 +289,7 @@ export default function Working() {
               />
             )}
           </div>
-          <div className="max-w-xl flex-col justify-start items-start gap-3 inline-flex">
+          <div className="max-w-2xl flex-col justify-start items-center gap-3 inline-flex z-10">
             {STEPS.map((step) => (
               <div
                 key={step.title}

@@ -79,14 +79,14 @@ function UsersCard({ data }: { data: (typeof users)[number] }) {
     <div className="p-4 bg-white rounded-2xl shadow-[0px_4px_32px_0px_rgba(0,0,0,0.08)] flex-col justify-start items-start gap-3 inline-flex">
       <div className="self-stretch justify-between items-center inline-flex">
         <div className="grow shrink basis-0 flex-col justify-start items-start gap-1 inline-flex">
-          <div className="self-stretch text-[#1e13f0] text-2xl font-semibold font-['DM Sans'] leading-[28.80px] tracking-tight">
+          <div className="self-stretch text-primary text-2xl font-semibold leading-[28.80px] tracking-tight">
             {data.departureTime}
           </div>
-          <div className="w-[135px] text-[#a4a4a4] text-sm font-medium font-['DM Sans'] leading-[16.80px]">
+          <div className="w-[135px] text-[#a4a4a4] text-sm font-medium leading-[16.80px]">
             {data.departureDate}
           </div>
           <div className="self-stretch h-[19px] flex-col justify-start items-start gap-1 flex">
-            <div className="self-stretch text-[#a8a8a8] text-base font-medium font-['DM Sans'] leading-tight tracking-tight">
+            <div className="self-stretch text-[#a8a8a8] text-base font-medium leading-tight tracking-tight">
               {data.departureLocation}
             </div>
           </div>
@@ -108,14 +108,14 @@ function UsersCard({ data }: { data: (typeof users)[number] }) {
         </div>
 
         <div className="grow shrink basis-0 flex-col justify-start items-end gap-1 inline-flex">
-          <div className="self-stretch text-right text-[#1e13f0] text-2xl font-semibold font-['DM Sans'] leading-[28.80px] tracking-tight">
+          <div className="self-stretch text-right text-primary text-2xl font-semibold leading-[28.80px] tracking-tight">
             {data.arrivalTime}
           </div>
-          <div className="w-[135px] text-right text-[#a4a4a4] text-sm font-medium font-['DM Sans'] leading-[16.80px]">
+          <div className="w-[135px] text-right text-[#a4a4a4] text-sm font-medium leading-[16.80px]">
             {data.arrivalDate}
           </div>
           <div className="self-stretch h-[19px] flex-col justify-start items-start gap-1 flex">
-            <div className="self-stretch text-right text-[#a8a8a8] text-base font-medium font-['DM Sans'] leading-tight tracking-tight">
+            <div className="self-stretch text-right text-[#a8a8a8] text-base font-medium leading-tight tracking-tight">
               {data.arrivalLocation}
             </div>
           </div>
@@ -128,7 +128,7 @@ function UsersCard({ data }: { data: (typeof users)[number] }) {
             src={data.avatar}
           />
           <div className="justify-start items-center gap-1 flex">
-            <div className="text-center text-[#1e1e1e] text-xl font-normal font-['DM Sans'] leading-normal">
+            <div className="text-center text-[#1e1e1e] text-xl font-normal leading-normal">
               {data.name}
             </div>
             <svg
@@ -162,12 +162,12 @@ function UsersCard({ data }: { data: (typeof users)[number] }) {
                   fill="white"
                 />
               </svg>
-              <div className="text-white text-sm font-normal font-['DM Sans'] leading-none">
+              <div className="text-white text-sm font-normal leading-none">
                 {data.rating}
               </div>
             </div>
             <div className="px-2 py-1 bg-[#f6bc40] rounded-2xl justify-center items-center gap-0.5 flex overflow-hidden">
-              <div className="text-black text-sm font-normal font-['DM Sans'] leading-none">
+              <div className="text-black text-sm font-normal leading-none">
                 Speaks {data.languages.join(", ")}
               </div>
             </div>

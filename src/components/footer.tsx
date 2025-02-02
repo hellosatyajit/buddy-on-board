@@ -41,7 +41,7 @@ const COMPANY_ITEMS = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="m-auto max-w-screen-2xl p-6 text-white">
+    <footer className="m-auto max-w-screen-2xl p-4 md:p-6 text-white">
       <div
         className="space-y-20 rounded-2xl bg-primary px-12 py-14 pb-16"
         style={{
