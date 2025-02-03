@@ -76,7 +76,7 @@ const users = [
 
 function UsersCard({ data }: { data: (typeof users)[number] }) {
   return (
-    <div className="p-4 bg-white rounded-2xl shadow-[0px_4px_32px_0px_rgba(0,0,0,0.08)] flex-col justify-start items-start gap-3 inline-flex">
+    <div className="relative p-4 bg-white rounded-2xl shadow-[0px_4px_32px_0px_rgba(0,0,0,0.08)] flex-col justify-start items-start gap-8 inline-flex">
       <div className="self-stretch justify-between items-center inline-flex">
         <div className="grow shrink basis-0 flex-col justify-start items-start gap-1 inline-flex">
           <div className="self-stretch text-primary text-2xl font-semibold leading-[28.80px] tracking-tight">
@@ -121,6 +121,7 @@ function UsersCard({ data }: { data: (typeof users)[number] }) {
           </div>
         </div>
       </div>
+      <div className="border-t border-dashed h-1 absolute top-1/2 inset-x-4 border-[#C5C5C5]" />
       <div className="self-stretch h-[77px] flex-col justify-center items-start gap-3 flex">
         <div className="self-stretch justify-start items-center gap-3 inline-flex">
           <img
@@ -191,8 +192,8 @@ export default function UsersSlider() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="left-[10%]" />
-      <CarouselNext className="right-[10%]" />
+      <CarouselPrevious className="left-[5%] md:left-[10%]" />
+      <CarouselNext className="right-[5%] md:right-[10%]" />
     </Carousel>
   );
 }

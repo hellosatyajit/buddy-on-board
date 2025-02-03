@@ -148,9 +148,9 @@ export default function Working() {
           backgroundSize: "cover",
         }}
       >
-        <div className="flex items-end gap-12 max-w-screen-2xl m-auto p-16">
+        <div className="flex flex-col md:flex-row items-end gap-12 max-w-screen-2xl m-auto px-4 py-9 md:p-16">
           <div className="space-y-8 flex-1">
-            <h3 className="font-merriweather text-[2.5rem] leading-tight">
+            <h3 className="font-merriweather text-xl md:text-[2.5rem] leading-tight">
               Travel Stress-Free with Trusted Buddy Companions
             </h3>
             <ul className="space-y-6">
@@ -182,7 +182,7 @@ export default function Working() {
             </ul>
           </div>
           <div
-            className="flex-1 aspect-[636/280] relative bg-primary rounded-2xl"
+            className="w-full md:w-auto md:flex-1 aspect-[636/280] relative bg-primary rounded-2xl"
             style={{
               backgroundImage: "url(./blue-bg.png)",
               backgroundSize: "cover",
@@ -195,9 +195,9 @@ export default function Working() {
             />
           </div>
         </div>
-        <div className="flex items-end gap-12 max-w-screen-2xl m-auto p-16">
+        <div className="flex flex-col-reverse md:flex-row items-end gap-12 max-w-screen-2xl m-auto px-4 py-9 md:p-16">
           <div
-            className="flex-1 aspect-[636/280] relative bg-primary rounded-2xl"
+            className="w-full md:w-auto md:flex-1 aspect-[636/280] relative bg-primary rounded-2xl"
             style={{
               backgroundImage: "url(./blue-bg.png)",
               backgroundSize: "cover",
@@ -210,7 +210,7 @@ export default function Working() {
             />
           </div>
           <div className="space-y-8 flex-1">
-            <h3 className="font-merriweather text-[2.5rem] leading-tight">
+            <h3 className="font-merriweather text-xl md:text-[2.5rem] leading-tight">
               Ship Easily with Buddy Couriers
             </h3>
             <ul className="space-y-6">
@@ -244,8 +244,8 @@ export default function Working() {
           </div>
         </div>
       </div>
-      <div className="max-w-screen-2xl m-auto px-16 py-16 space-y-4 flex flex-col">
-        <h2 className="font-merriweather text-center text-[2.5rem]">
+      <div className="max-w-screen-2xl m-auto px-4 py-9 md:px-16 md:py-16 space-y-4 flex flex-col">
+        <h2 className="font-merriweather text-center text-2xl md:text-[2.5rem]">
           Know how it all works
         </h2>
         <div
@@ -269,7 +269,7 @@ export default function Working() {
         </div>
         <div className="flex flex-col gap-4 md:flex-row justify-end items-center max-w-5xl w-full m-auto md:relative md:h-[468px]">
           <div
-            className=" bg-primary rounded-2xl md:absolute md:left-0 md:inset-y-0 md:right-[40%] aspect-[577/309] w-full relative"
+            className="bg-primary rounded-2xl relative md:absolute md:left-0 md:inset-y-0 md:right-[40%] aspect-square md:aspect-auto"
             style={{
               backgroundImage: "url(./blue-bg.png)",
               backgroundSize: "cover",
@@ -285,7 +285,7 @@ export default function Working() {
               <img
                 src="./handover.png"
                 alt=""
-                className="absolute inset-x-0 top-0"
+                className="absolute inset-x-0 top-1/2 -translate-y-1/2 md:translate-y-0 md:top-0"
               />
             )}
           </div>
@@ -293,16 +293,16 @@ export default function Working() {
             {STEPS.map((step) => (
               <div
                 key={step.title}
-                className="p-4 bg-white rounded-lg shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)] justify-start items-center gap-6 inline-flex"
+                className="p-4 bg-white rounded-lg shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)] md:justify-start md:items-center gap-2 md:gap-6 inline-flex flex-col md:flex-row"
               >
-                <div className="w-14 h-14 p-3.5 bg-[#0d53e0] rounded-lg justify-center items-center flex overflow-hidden">
+                <div className="w-8 md:w-14 h-8 md:h-14 p-2 md:p-3.5 bg-[#0d53e0] rounded-lg justify-center items-center flex  overflow-hidden">
                   {step.icon}
                 </div>
                 <div className="grow shrink basis-0 flex-col justify-start items-start inline-flex">
-                  <div className="text-[#090909] text-base font-bold leading-snug">
+                  <div className="text-[#090909] text-sm md:text-base font-bold leading-snug">
                     {step.title}
                   </div>
-                  <div className="self-stretch text-[#090909] text-base font-normal leading-snug">
+                  <div className="self-stretch text-[#090909] text-xs md:text-base font-normal leading-snug">
                     {step.description}
                   </div>
                 </div>

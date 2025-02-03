@@ -439,7 +439,7 @@ const SingleSelector = React.forwardRef<
               className={cn(
                 "flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed border-none p-0 focus-visible:ring-transparent rounded-none h-auto truncate",
                 {
-                  "w-full": hidePlaceholderWhenSelected,
+                  "md:w-fit": hidePlaceholderWhenSelected,
                 },
                 inputProps?.className,
               )}
