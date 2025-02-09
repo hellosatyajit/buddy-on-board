@@ -16,3 +16,17 @@ export interface Airport {
   local_code: string;
   is_armforced: 1 | 0;
 }
+
+export interface AuthFormData {
+  email: string;
+  password: string;
+}
+
+export interface UserMetadata {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  dateOfBirth: string;
+  phoneNumber?: string;
+  countryOfResidence: string;
+}

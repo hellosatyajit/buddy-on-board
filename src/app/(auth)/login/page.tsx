@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { signIn } from "@/actions/auth"
 
 const loginSchema = z
     .object({
@@ -19,31 +20,42 @@ const loginSchema = z
 type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginForm() {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
     const {
         register: registerLogin,
         handleSubmit: handleSubmitLogin,
+        setError,
         formState: { errors: errorsLogin, isSubmitting },
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
     })
 
     const onSubmitLogin = async (data: LoginFormData) => {
-        try {
-            console.log("Form submitted", data)
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            console.log("Login successful")
-        } catch (error) {
-            setErrorMessage("Failed to login. Please check your credentials.")
+        const { error } = await signIn(data);
+
+        if (error) {
+            setError("root", {
+                message: error instanceof Error ? error.message : "An error occurred while sending the reset link"
+            });
         }
     }
+
+    const getErrorMessage = (errors: any) => {
+        const errorKeys = Object.keys(errors)
+        if (errorKeys.length === 3) {
+            return "Please enter all fields correctly."
+        } else if (errorKeys.length > 0) {
+            return errors[errorKeys[0]].message
+        }
+        return null
+    }
+
+    const errorMessageSignUp = getErrorMessage(errorsLogin)
 
     return (
         <div className="px-4 py-8 md:px-16 lg:py-14 2xl:py-16 m-auto max-w-2xl min-h-[calc(100vh-5rem)]">
             <div className="w-full flex-col justify-start items-center gap-4 sm:gap-6 md:gap-8 inline-flex">
                 <div className="self-stretch flex-col justify-start items-center gap-3 flex">
-                    <h1 className="self-stretch text-[#181d27] text-3xl font-normal font-['Merriweather'] leading-[38px]">
+                    <h1 className="self-stretch text-[#181d27] text-2xl lg:text-3xl font-normal font-merriweather leading-[38px]">
                         Log in
                     </h1>
                 </div>
@@ -90,9 +102,9 @@ export default function LoginForm() {
                                 {isSubmitting ? "Logging in..." : "Log In"}
                             </span>
                         </Button>
-                        {errorMessage && (
+                        {errorMessageSignUp && (
                             <div className="text-center self-stretch mt-2">
-                                <p className="text-red-500 text-sm">{errorMessage}</p>
+                                <p className="text-red-500 text-sm">{errorMessageSignUp}</p>
                             </div>
                         )}
                     </div>

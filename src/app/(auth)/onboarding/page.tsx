@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Checkbox } from "@/components/ui/checkbox"
+import { updateUserMetadata } from "@/actions/auth"
+import { useState } from "react"
 
 const additionalInfoSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -17,26 +19,38 @@ const additionalInfoSchema = z.object({
     dateOfBirth: z.string().min(1, "Date of birth is required"),
     phoneNumber: z.string().optional(),
     countryOfResidence: z.string().min(1, "Country of residence is required"),
-    agreeToTerms: z.boolean().refine((val) => val === true, {
-        message: "You must agree to the terms and conditions",
-    }),
+    agreeToTerms: z.boolean()
+        .refine((val) => val === true, {
+            message: "You must agree to the terms and conditions",
+        }),
 })
 
 type AdditionalInfoData = z.infer<typeof additionalInfoSchema>
 
 export default function SignUpForm() {
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
     const {
-        register: registerAdditionalInfo,
+        register: registerOnBoarding,
         handleSubmit: handleSubmitAdditionalInfo,
+        setError,
+        setValue,
         formState: { errors: errorsAdditionalInfo, isSubmitting },
     } = useForm<AdditionalInfoData>({
         resolver: zodResolver(additionalInfoSchema),
+        defaultValues: {
+            agreeToTerms: false,
+        }
     })
 
     const onSubmitAdditionalInfo = async (data: AdditionalInfoData) => {
-        console.log("Additional info submitted", data)
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        console.log("Registration complete")
+        const { agreeToTerms, ...metadata } = data;
+        const { error } = await updateUserMetadata(metadata);
+
+        if (error) {
+            setError("root", {
+                message: error instanceof Error ? error.message : "An error occurred while sending the reset link"
+            });
+        }
     }
 
     const getErrorMessage = (errors: any) => {
@@ -55,7 +69,7 @@ export default function SignUpForm() {
         <div className="px-4 py-8 md:px-16 lg:py-14 2xl:py-16 m-auto max-w-4xl min-h-[calc(100vh-5rem)]">
             <div className="w-full flex-col justify-start items-center gap-4 sm:gap-6 md:gap-8 inline-flex">
                 <div className="self-stretch flex-col justify-start items-center gap-3 flex">
-                    <h2 className="self-stretch text-[#181d27] text-3xl font-normal font-merriweather leading-[38px]">
+                    <h2 className="self-stretch text-[#181d27] text-2xl lg:text-3xl font-normal font-merriweather leading-[38px]">
                         Tell us a bit more...
                     </h2>
                 </div>
@@ -70,7 +84,7 @@ export default function SignUpForm() {
                                     First name*
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("firstName")}
+                                    {...registerOnBoarding("firstName")}
                                     id="firstName"
                                     type="text"
                                     placeholder="Your first name"
@@ -84,7 +98,7 @@ export default function SignUpForm() {
                                     Middle name
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("middleName")}
+                                    {...registerOnBoarding("middleName")}
                                     id="middleName"
                                     type="text"
                                     placeholder="Your middle name"
@@ -98,7 +112,7 @@ export default function SignUpForm() {
                                     Last name*
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("lastName")}
+                                    {...registerOnBoarding("lastName")}
                                     id="lastName"
                                     type="text"
                                     placeholder="Your last name"
@@ -114,7 +128,7 @@ export default function SignUpForm() {
                                     Date of birth*
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("dateOfBirth")}
+                                    {...registerOnBoarding("dateOfBirth")}
                                     id="dateOfBirth"
                                     type="date"
                                     placeholder="Choose a date"
@@ -128,7 +142,7 @@ export default function SignUpForm() {
                                     Phone number
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("phoneNumber")}
+                                    {...registerOnBoarding("phoneNumber")}
                                     id="phoneNumber"
                                     type="tel"
                                     placeholder="Enter your contact number"
@@ -139,10 +153,10 @@ export default function SignUpForm() {
                             </div>
                             <div className="w-full flex-col justify-start items-start gap-2 inline-flex">
                                 <Label htmlFor="countryOfResidence">
-                                    Country of residence
+                                    Country of residence*
                                 </Label>
                                 <Input
-                                    {...registerAdditionalInfo("countryOfResidence")}
+                                    {...registerOnBoarding("countryOfResidence")}
                                     id="countryOfResidence"
                                     type="text"
                                     placeholder="Your country of residence"
@@ -154,9 +168,18 @@ export default function SignUpForm() {
                         </div>
                         <div className="self-stretch justify-start items-center gap-3 inline-flex">
                             <Checkbox
-                                {...registerAdditionalInfo("agreeToTerms")}
                                 id="agreeToTerms"
-                                className="w-5 h-5" />
+                                className={cn("w-5 h-5", {
+                                    "border-red-500": errorsAdditionalInfo.agreeToTerms
+                                })}
+                                checked={agreedToTerms}
+                                onCheckedChange={(checked) => {
+                                    setAgreedToTerms(checked as boolean);
+                                    setValue('agreeToTerms', checked as boolean, {
+                                        shouldValidate: true
+                                    });
+                                }}
+                            />
                             <Label htmlFor="agreeToTerms" className="grow shrink basis-0">
                                 <span className="text-[#535862] text-sm font-normal leading-5">
                                     I have read and agree to the{" "}
@@ -175,20 +198,22 @@ export default function SignUpForm() {
                             </Label>
                         </div>
                     </div>
-                    <div className="self-stretch h-[50px] flex-col justify-start items-start gap-4 flex">
+                    <div className="self-stretch flex-col justify-start items-start gap-4 flex">
                         <Button type="submit" disabled={isSubmitting} className="px-8 py-3 h-auto w-full">
                             <span className="text-center text-white text-xl font-semibold leading-relaxed">
                                 {isSubmitting ? "Finishing registration..." : "Finish registration"}
                             </span>
                         </Button>
+                        {(errorMessageAdditionalInfo || errorsAdditionalInfo.root?.message) && (
+                            <div className="self-stretch text-center mt-2">
+                                <p className="text-red-500 text-sm">
+                                    {errorMessageAdditionalInfo || errorsAdditionalInfo.root?.message}
+                                </p>
+                            </div>
+                        )}
                     </div>
-                    {errorMessageAdditionalInfo && (
-                        <div className="self-stretch text-center mt-2">
-                            <p className="text-red-500 text-sm">{errorMessageAdditionalInfo}</p>
-                        </div>
-                    )}
                 </form>
             </div>
-        </div >
+        </div>
     )
 }

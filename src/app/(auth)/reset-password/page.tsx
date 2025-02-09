@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { resetPassword } from "@/actions/auth"
 
 const newPasswordSchema = z
     .object({
@@ -22,23 +23,22 @@ const newPasswordSchema = z
 type NewPasswordFormData = z.infer<typeof newPasswordSchema>
 
 export default function NewPasswordForm() {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
     const {
         register: registerNewPassword,
         handleSubmit: handleSubmitNewPassword,
+        setError,
         formState: { errors: errorsNewPassword, isSubmitting },
     } = useForm<NewPasswordFormData>({
         resolver: zodResolver(newPasswordSchema),
     })
 
     const onSubmitNewPassword = async (data: NewPasswordFormData) => {
-        try {
-            console.log("Form submitted", data)
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            console.log("Password updated")
-        } catch (error) {
-            setErrorMessage("Failed to update password. Please try again.")
+        const { error } = await resetPassword(data.password);
+
+        if (error) {
+            setError("root", {
+                message: error instanceof Error ? error.message : "An error occurred while sending the reset link"
+            });
         }
     }
 
@@ -46,7 +46,7 @@ export default function NewPasswordForm() {
         <div className="px-4 py-8 md:px-16 lg:py-14 2xl:py-16 m-auto max-w-2xl min-h-[calc(100vh-5rem)]">
             <div className="w-full flex-col justify-start items-center gap-4 sm:gap-6 md:gap-8 inline-flex">
                 <div className="self-stretch flex-col justify-start items-center gap-3 flex">
-                    <h1 className="self-stretch text-[#181d27] text-3xl font-normal font-['Merriweather'] leading-[38px]">
+                    <h1 className="self-stretch text-[#181d27] text-2xl lg:text-3xl font-normal font-merriweather leading-[38px]">
                         Create new password
                     </h1>
                 </div>
@@ -90,14 +90,14 @@ export default function NewPasswordForm() {
                                 {isSubmitting ? "Updating password..." : "Update password"}
                             </span>
                         </Button>
-                        {errorMessage && (
+                        {errorsNewPassword.root && (
                             <div className="text-center self-stretch mt-2">
-                                <p className="text-red-500 text-sm">{errorMessage}</p>
+                                <p className="text-red-500 text-sm">{errorsNewPassword.root.message}</p>
                             </div>
                         )}
                     </div>
                 </form>
             </div>
-        </div >
+        </div>
     )
 }
