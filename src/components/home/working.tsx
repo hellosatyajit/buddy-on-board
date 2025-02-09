@@ -269,7 +269,7 @@ export default function Working() {
         </div>
         <div className="flex flex-col gap-4 md:flex-row justify-end items-center max-w-5xl w-full m-auto md:relative md:h-[468px]">
           <div
-            className="bg-primary rounded-2xl relative md:absolute md:left-0 md:inset-y-0 md:right-[40%] aspect-square md:aspect-auto"
+            className="bg-primary rounded-2xl relative lg:absolute md:left-0 md:inset-y-0 md:right-[40%] aspect-square sm:aspect-[577/309] lg:aspect-auto w-full lg:w-auto"
             style={{
               backgroundImage: "url(./blue-bg.png)",
               backgroundSize: "cover",
@@ -279,7 +279,7 @@ export default function Working() {
               <img
                 src="./elder-support.png"
                 alt=""
-                className="absolute left-0 bottom-0"
+                className="absolute left-0 lg:right-auto bottom-0"
               />
             ) : (
               <img
@@ -289,11 +289,11 @@ export default function Working() {
               />
             )}
           </div>
-          <div className="max-w-2xl flex-col justify-start items-center gap-3 inline-flex z-10">
+          <div className="max-w-[43rem] flex-col justify-start items-center gap-3 inline-flex z-10">
             {STEPS.map((step) => (
               <div
                 key={step.title}
-                className="p-4 bg-white rounded-lg shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)] md:justify-start md:items-center gap-2 md:gap-6 inline-flex flex-col md:flex-row"
+                className="w-full p-4 bg-white rounded-lg shadow-[0px_8px_16px_0px_rgba(0,0,0,0.08)] md:justify-start md:items-center gap-2 md:gap-6 inline-flex flex-col md:flex-row"
               >
                 <div className="w-8 md:w-14 h-8 md:h-14 p-2 md:p-3.5 bg-[#0d53e0] rounded-lg justify-center items-center flex  overflow-hidden">
                   {step.icon}

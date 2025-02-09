@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { AuthFormData, UserMetadata } from "@/lib/types";
 
-
 export async function signIn(formData: AuthFormData) {
   const supabase = await createClient();
 
@@ -32,7 +31,7 @@ export async function signUp(formData: AuthFormData) {
   if (error) {
     return { error };
   }
-  
+
   return { success: true };
 }
 

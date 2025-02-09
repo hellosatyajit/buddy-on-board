@@ -40,8 +40,6 @@ export function AirportSearch() {
 
   const fetchAirports = async (searchTerm: string) => {
     const response = await getAirports(searchTerm);
-    console.log(response.data);
-
     const data = response.data;
     setAirports(data);
   };

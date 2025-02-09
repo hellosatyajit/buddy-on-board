@@ -23,7 +23,7 @@ export default function CTA() {
                 <img
                   key={index}
                   className={`w-6 h-6 relative rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.16)] border border-white`}
-                  style={{transform: `translateX(${(6 - index * 2 * 4)}px)`}}
+                  style={{ transform: `translateX(${6 - index * 2 * 4}px)` }}
                   src="https://avatar.iran.liara.run/public"
                 />
               ))}

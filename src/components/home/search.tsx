@@ -5,6 +5,7 @@ import { getAirports } from "@/actions/airport";
 import SingleSelector from "../ui/singleselect";
 import DatePicker from "../ui/date-picker";
 import { Skeleton } from "../ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export default function Search() {
   const [searchType, setSearchType] = useState<"travel" | "courier">("travel");
@@ -50,7 +51,12 @@ export default function Search() {
       </div>
       <div className="flex flex-col lg:flex-row gap-2 lg:gap-4">
         <div className="flex-1 rounded-2xl bg-transparent lg:bg-white lg:px-8 lg:py-2 flex text-sm flex-col lg:flex-row gap-2">
-          <div className="flex-1 bg-white lg:bg-transparent rounded-2xl px-4 py-2 lg:p-0 flex flex-row">
+          <div
+            className={cn(
+              "flex-1 bg-white lg:bg-transparent rounded-2xl px-4 py-2 lg:p-0 flex flex-row",
+              { "lg:basis-1/3": searchType === "travel" },
+            )}
+          >
             <div className="flex-1 relative">
               <label htmlFor="from" className="uppercase block">
                 From
@@ -82,7 +88,7 @@ export default function Search() {
                 }
               />
             </div>
-            <div className="flex-1 pl-4 lg:pl-16 lg:pr-4 border-l">
+            <div className="flex-1 pl-4 lg:pl-8 2xl:pl-16 lg:pr-4 border-l">
               <label htmlFor="to" className="uppercase block">
                 To
               </label>
@@ -115,14 +121,14 @@ export default function Search() {
             </div>
           </div>
           <div className="flex-1 bg-white lg:bg-transparent rounded-2xl px-4 py-2 lg:p-0 flex flex-row">
-            <div className="flex-1 lg:pl-16 lg:border-l">
+            <div className="flex-1 lg:pl-8 2xl:pl-16 lg:border-l">
               <label htmlFor="date" className="uppercase">
                 Date
               </label>
               <DatePicker date={date} setDate={setDate} />
             </div>
             {searchType === "courier" && (
-              <div className="flex-1 pl-4 lg:pl-16 border-l">
+              <div className="flex-1 pl-4 lg:pl-8 2xl:pl-16 border-l">
                 <label htmlFor="date" className="uppercase">
                   TYPE OF PACKAGE
                 </label>
@@ -130,11 +136,24 @@ export default function Search() {
                   value={packageType}
                   onChange={(value) => setPackageType(value)}
                   defaultOptions={[
-                    { label: "Documents", value: "documents" },
-                    { label: "Small Package", value: "small_package" },
-                    { label: "Medium Package", value: "medium_package" },
-                    { label: "Large Package", value: "large_package" },
+                    { label: "Documents", value: "documents", type: "as" },
+                    {
+                      label: "Small Package",
+                      value: "small_package",
+                      type: "as",
+                    },
+                    {
+                      label: "Medium Package",
+                      value: "medium_package",
+                      type: "fg",
+                    },
+                    {
+                      label: "Large Package",
+                      value: "large_package",
+                      type: "fg",
+                    },
                   ]}
+                  groupBy="type"
                   placeholder="Select your item"
                   emptyIndicator={
                     <p className="w-full text-center text-sm leading-10 text-muted-foreground">
@@ -146,7 +165,7 @@ export default function Search() {
             )}
           </div>
         </div>
-        <Button className="h-auto px-8 py-3 lg:py-2 text-xl" onClick={() => { }}>
+        <Button className="h-auto px-8 py-3 lg:py-2 text-xl" onClick={() => {}}>
           <span className="leading-7">Search</span>
         </Button>
       </div>

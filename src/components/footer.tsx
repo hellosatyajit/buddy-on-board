@@ -76,7 +76,11 @@ export default function Footer() {
           </div>
           <div className="flex flex-col md:flex-row gap-3 md:gap-6 order-1 2xl:order-2">
             {COMPANY_ITEMS.map((item) => (
-              <Link key={item.label} href={item.href} className="font-medium md:font-bold text-xs md:text-xl">
+              <Link
+                key={item.label}
+                href={item.href}
+                className="font-medium md:font-bold text-xs md:text-xl"
+              >
                 {item.label}
               </Link>
             ))}
