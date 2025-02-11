@@ -1,0 +1,93 @@
+TravelBuddy Platform Specification
+Product Type
+
+Two-sided marketplace platform (Web application)
+Service matchmaking for travelers and verified providers
+Identity verification and payment processing integration
+
+Core Functionality
+
+User registration and role-based access
+Service request posting and browsing
+Identity verification (Veriff integration)
+In-app messaging system
+Secure payment processing (Stripe)
+Email notification system
+Provider verification status management
+
+User Types
+
+Service Seekers:
+
+Post travel companion/courier requests
+Browse provider profiles
+Communicate with providers
+Make secure payments
+Rate and review services
+
+
+Service Providers:
+
+Complete identity verification
+Set up Stripe Connected account
+Browse and respond to requests
+Communicate with seekers
+Receive payments
+Manage availability
+
+
+
+User Stories
+Service Seekers
+
+As a seeker, I want to create a detailed service request so providers can understand my needs
+As a seeker, I want to view provider verification status to ensure safety
+As a seeker, I want to communicate with providers before booking
+As a seeker, I want to make secure payments through the platform
+As a seeker, I want to receive email updates about my request status
+
+Service Providers
+
+As a provider, I want to complete identity verification to offer services
+As a provider, I want to set up my payment account securely
+As a provider, I want to browse and filter available requests
+As a provider, I want to communicate with potential clients
+As a provider, I want to receive secure payments for my services
+
+Business Rules
+
+Provider Verification:
+
+Mandatory Veriff identity verification
+Required Stripe Connected account setup
+Profile approval process
+
+
+Payment Processing:
+
+Upfront payment from seekers
+Platform fee deduction
+Hold period for dispute resolution
+Automated provider payout
+
+
+Communication:
+
+In-app chat only (no external contact sharing)
+Email notifications for key events
+Message history retention
+
+
+Tech Stack
+
+Frontend: Next.js 15 with App Router
+Backend: Next.js Server Actions
+Database: Supabase (PostgreSQL) with Drizzle
+Authentication: Supabase Auth
+Real-time Features: Supabase Realtime
+
+Additional Services:
+
+Veriff for identity verification
+Stripe for payments
+Resend for email notifications
