@@ -30,3 +30,33 @@ export interface UserMetadata {
   phoneNumber?: string;
   countryOfResidence: string;
 }
+
+export type BookingStatus = "upcoming" | "requests" | "previous" | "canceled";
+export type BookingRequestType = "travel" | "courier";
+
+export interface TravelBuddy {
+  id: string;
+  name: string;
+  profileImg: string;
+  rating: number;
+  languages: string[];
+  departureTime: string;
+  departureDate: string;
+  departureLocation: string;
+  arrivalTime: string;
+  arrivalDate: string;
+  arrivalLocation: string;
+  type: BookingStatus;
+  canceledDate?: string;
+  requestInfo?: {
+    sentDate: string;
+    requestType: BookingRequestType;
+    passengers?: number;
+    documentType?: string;
+  };
+  ratingInfo?: {
+    rated: boolean;
+    userRating: number;
+    comment: string;
+  };
+}
