@@ -1,15 +1,18 @@
 'use client';
 
+import { useState } from "react";
 import { StarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TravelBuddy } from "@/lib/types"
 import Link from "next/link";
+import CancelTripModal from "./cancel-trip-modal";
 
 interface TravelBuddyCardProps {
     buddy: TravelBuddy;
 }
 
 export default function TravelBuddyCard({ buddy }: TravelBuddyCardProps) {
+    const [showCancelModal, setShowCancelModal] = useState(false);
     const {
         name,
         profileImg,
@@ -90,7 +93,6 @@ export default function TravelBuddyCard({ buddy }: TravelBuddyCardProps) {
                         <Button
                             variant="default"
                             className="w-full h-[50px] bg-primary hover:bg-primary/90 text-xl"
-                            onClick={() => { }}
                         >
                             <Link href={`/chat/${buddy.id}`}>
                                 Send message
@@ -99,10 +101,25 @@ export default function TravelBuddyCard({ buddy }: TravelBuddyCardProps) {
                         <Button
                             variant="default"
                             className="w-full h-[50px] text-primary border-primary bg-white hover:bg-primary/10 text-xl"
-                            onClick={() => { }}
+                            onClick={() => setShowCancelModal(true)}
                         >
                             Cancel trip
                         </Button>
+                        <CancelTripModal
+                            open={showCancelModal}
+                            onOpenChange={setShowCancelModal}
+                            tripDetails={{
+                                amount: 100.00,
+                                refundAmount: 90.00,
+                                name,
+                                departureTime,
+                                departureDate,
+                                departureLocation,
+                                arrivalTime,
+                                arrivalDate,
+                                arrivalLocation,
+                            }}
+                        />
                     </div>
                 );
         }
