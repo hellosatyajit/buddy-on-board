@@ -60,3 +60,34 @@ export interface TravelBuddy {
     comment: string;
   };
 }
+
+export interface Message {
+  id: string;
+  content: string;
+  sender: "user" | "other";
+  timestamp: string;
+  senderName: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  avatarUrl?: string;
+  verified: boolean;
+  lastMessage?: string;
+  lastMessageAt: Date;
+  unread: boolean;
+}
+
+export interface ChatState {
+  users: User[];
+  activeChat: string | null;
+  activeTab: "all" | "unread";
+  searchQuery: string;
+  messages: Record<string, Message[]>;
+  setUsers: (users: User[]) => void;
+  setActiveChat: (id: string | null) => void;
+  setActiveTab: (tab: "all" | "unread") => void;
+  setSearchQuery: (query: string) => void;
+  addMessage: (chatId: string, message: Message) => void;
+}
