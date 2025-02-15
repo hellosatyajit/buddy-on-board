@@ -91,3 +91,31 @@ export interface ChatState {
   setSearchQuery: (query: string) => void;
   addMessage: (chatId: string, message: Message) => void;
 }
+
+export type NotificationType = 'message' | 'review' | 'system' | 'booking';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  timestamp: Date;
+  read: boolean;
+  actionUrl?: string;
+  metadata?: {
+    userId?: string;
+    bookingId?: string;
+    messageId?: string;
+    avatarUrl?: string;
+  };
+}
+
+export interface NotificationState {
+  notifications: Notification[];
+  unreadCount: number;
+  setNotifications: (notifications: Notification[]) => void;
+  markAsRead: (id: string) => void;
+  markAllAsRead: () => void;
+  addNotification: (notification: Omit<Notification, 'id'>) => void;
+  removeNotification: (id: string) => void;
+}
