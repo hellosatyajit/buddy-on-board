@@ -87,6 +87,25 @@ export const TRAVEL_DATA: TravelBuddy[] = [
     type: "canceled",
     canceledDate: "11th February, 2024",
   },
+  {
+    id: "6",
+    name: "Emily Johnson",
+    profileImg: "https://avatar.iran.liara.run/public",
+    rating: 4.8,
+    languages: ["English", "Spanish"],
+    departureTime: "10:00",
+    departureDate: "15 Feb 2024",
+    departureLocation: "New York (JFK)",
+    arrivalTime: "12:30",
+    arrivalDate: "15 Feb 2024",
+    arrivalLocation: "Los Angeles (LAX)",
+    type: "previous",
+    ratingInfo: {
+      rated: false,
+      userRating: 0,
+      comment: "",
+    },
+  },
 ];
 
 export const emptyMessages: { [key in BookingStatus]: string } = {

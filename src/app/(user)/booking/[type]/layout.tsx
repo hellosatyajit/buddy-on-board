@@ -12,4 +12,4 @@ export default function BookingLayout({
       {children}
     </div>
   );
-}
+} 

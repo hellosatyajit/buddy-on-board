@@ -81,8 +81,11 @@ export default function TravelBuddyCard({ buddy }: TravelBuddyCardProps) {
                             <Button
                                 variant="default"
                                 className="w-full h-[50px] bg-primary hover:bg-primary/90 text-xl"
+                                asChild
                             >
-                                Rate my buddy
+                                <Link href={`/booking/rate/${buddy.id}`}>
+                                    Rate my buddy
+                                </Link>
                             </Button>
                         )}
                     </div>
