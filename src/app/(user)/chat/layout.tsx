@@ -3,27 +3,31 @@
 import { Input } from "@/components/ui/input";
 import { ChatTabs } from "@/components/chat/tabs";
 import { UserCard } from "@/components/chat/user-card";
-import { useChatStore } from "@/stores/chat";
 import { formatDistanceToNow } from "date-fns";
-import { useEffect } from "react";
-import { dummyUsers } from "@/lib/constants/chat";
+import { useConversations } from "@/hooks/useConversations";
+import { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useChatStore } from "@/stores/chat";
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
-  const { users, setUsers, activeChat, setActiveChat, activeTab, searchQuery, setSearchQuery } = useChatStore();
+  const router = useRouter();
+  const params = useParams();
+  const { conversations, loading, error, markAsRead } = useConversations();
+  const [searchQuery, setSearchQuery] = useState("");
+  const { activeTab } = useChatStore();
 
-  useEffect(() => {
-    setUsers(dummyUsers);
-  }, []);
+  const activeChat = params?.id as string;
 
-  useEffect(() => {
-    window.history.pushState({}, '', `/chat/${activeChat}`);
-  }, [activeChat]);
+  const filteredConversations = conversations
+    .filter((conversation) => {
+      const matchesSearch = conversation.participant.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesTab = activeTab === "all" || (activeTab === "unread" && conversation.unreadCount > 0);
+      return matchesSearch && matchesTab;
+    });
 
-  const filteredUsers = users.filter((user) => {
-    const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesTab = activeTab === "all" || (activeTab === "unread" && user.unread);
-    return matchesSearch && matchesTab;
-  });
+  if (error) {
+    return <div>Error loading conversations: {error.message}</div>;
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto p-4 md:p-16 space-y-6">
@@ -50,17 +54,24 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
         <div className="space-y-6">
           <ChatTabs />
           <div className="flex flex-col gap-3 min-w-[24rem] max-w-sm w-full h-[calc(100%-4.5rem)] overflow-y-scroll">
-            {filteredUsers.map((user) => (
+            {filteredConversations.map((conversation) => (
               <UserCard
-                key={user.id}
-                user={user}
-                subtitle={user.lastMessage}
-                timestamp={user.lastMessageAt ? formatDistanceToNow(new Date(user.lastMessageAt), { addSuffix: true }) : undefined}
-                unread={user.unread}
-                active={activeChat === user.id}
-                onClick={() => setActiveChat(user.id)}
+                key={conversation.id}
+                conversation={conversation}
+                subtitle={conversation.lastMessage?.content ?? ""}
+                timestamp={conversation.lastMessage?.createdAt ? formatDistanceToNow(new Date(conversation.lastMessage.createdAt), { addSuffix: true }) : undefined}
+                unread={conversation.unreadCount > 0}
+                active={activeChat === conversation.id}
+                onClick={() => {
+                  router.push(`/chat/${conversation.id}`);
+                }}
               />
             ))}
+            {filteredConversations.length === 0 && (
+              <div className="text-center text-gray-500 py-4">
+                No conversations found
+              </div>
+            )}
           </div>
         </div>
 

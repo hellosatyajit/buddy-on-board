@@ -67,6 +67,7 @@ export interface Message {
   sender: "user" | "other";
   timestamp: string;
   senderName: string;
+  createdAt: string;
 }
 
 export interface User {

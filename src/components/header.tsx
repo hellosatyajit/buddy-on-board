@@ -113,7 +113,7 @@ const USER_MENU_ITEMS = [
   },
   {
     label: "Messages",
-    href: "/messages",
+    href: "/chat",
     icon: () => (
       <svg
         width="20"
