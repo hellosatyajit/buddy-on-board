@@ -5,6 +5,7 @@ import { eq, and, isNull, desc } from "drizzle-orm";
 import { Resend } from "resend";
 import { NotificationEmail } from "@/components/emails/notification-email";
 import { users } from "@/db/schema";
+import { enqueueEmail } from "@/actions/queue";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -63,26 +64,13 @@ export async function sendNotification({
       }
 
       if (user[0].email) {
-        await resend.emails.send({
-          from: "TravelBuddy <notifications@travelbuddy.com>",
-          to: user[0].email,
-          subject: title || "New Notification from TravelBuddy",
-          react: NotificationEmail({
-            title: title || "New Notification",
-            message,
-            actionUrl: actionUrl
-              ? `${process.env.NEXT_PUBLIC_APP_URL}${actionUrl}`
-              : undefined,
-          }),
+        await enqueueEmail({
+          userId,
+          title: title ?? "New Notification",
+          message,
+          actionUrl,
+          notificationId: notification.id,
         });
-
-        await db
-          .update(notifications)
-          .set({
-            emailStatus: "sent",
-            emailSentAt: new Date(),
-          })
-          .where(eq(notifications.id, notification.id));
       }
     }
 
