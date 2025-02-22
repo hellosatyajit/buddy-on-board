@@ -6,6 +6,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "./context/auth";
 import { signOut } from "@/actions/auth";
+import { useNotificationStore } from "@/stores/notification";
 
 const NAVBAR_ITEMS = [
   {
@@ -250,6 +251,7 @@ const USER_MENU_ITEMS = [
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, loading } = useAuth();
+  const { unreadCount } = useNotificationStore();
 
   return (
     <>
@@ -313,6 +315,11 @@ export default function Navbar() {
                       fill="currentColor"
                     />
                   </svg>
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-[#DF1216] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
                 </Button>
                 <div className="absolute right-0 pt-2 z-30 w-64 hidden group-hover:block">
                   <div className="rounded-xl bg-white shadow-lg py-3 border border-[#E6E6E6]">

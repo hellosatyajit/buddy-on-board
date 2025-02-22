@@ -96,6 +96,7 @@ export const notifications = pgTable("notifications", {
   metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  deletedAt: timestamp("deleted_at"),
 });
 
 export const notificationTypesRelations = relations(notificationTypes, ({ one }) => ({
@@ -118,5 +119,7 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
 
 export type NotificationTypeRecord = typeof notificationTypes.$inferSelect;
 export type NewNotificationTypeRecord = typeof notificationTypes.$inferInsert;
-export type NotificationRecord = typeof notifications.$inferSelect;
+export type NotificationRecord = typeof notifications.$inferSelect & {
+  notificationCategory: string | null;
+};
 export type NewNotificationRecord = typeof notifications.$inferInsert;
