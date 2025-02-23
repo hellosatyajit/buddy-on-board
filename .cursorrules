@@ -1,93 +1,174 @@
-TravelBuddy Platform Specification
-Product Type
+# Buddy on Board Platform Specification
 
-Two-sided marketplace platform (Web application)
-Service matchmaking for travelers and verified providers
-Identity verification and payment processing integration
+## Product Type
 
-Core Functionality
+- Two-sided marketplace platform (Web application)
+- Service matchmaking for travelers and verified providers
+- Identity verification and payment processing integration
 
-User registration and role-based access
-Service request posting and browsing
-Identity verification (Veriff integration)
-In-app messaging system
-Secure payment processing (Stripe)
-Email notification system
-Provider verification status management
+## Core Functionality
 
-User Types
+- User registration and role-based access
+- Service request posting and browsing
+- Identity verification (Veriff integration)
+- In-app messaging system
+- Secure payment processing (Stripe)
+- Email notification system
+- Provider verification status management
 
-Service Seekers:
+## User Types
 
-Post travel companion/courier requests
-Browse provider profiles
-Communicate with providers
-Make secure payments
-Rate and review services
+### Service Seekers:
 
+- Post travel companion/courier requests
+- Browse provider profiles
+- Communicate with providers
+- Make secure payments
+- Rate and review services
 
-Service Providers:
+### Service Providers:
 
-Complete identity verification
-Set up Stripe Connected account
-Browse and respond to requests
-Communicate with seekers
-Receive payments
-Manage availability
+- Complete identity verification
+- Set up Stripe Connected account
+- Browse and respond to requests
+- Communicate with seekers
+- Receive payments
+- Manage availability
 
+## User Stories
 
+### Service Seekers
 
-User Stories
-Service Seekers
+- As a seeker, I want to create a detailed service request so providers can understand my needs
+- As a seeker, I want to view provider verification status to ensure safety
+- As a seeker, I want to communicate with providers before booking
+- As a seeker, I want to make secure payments through the platform
+- As a seeker, I want to receive email updates about my request status
 
-As a seeker, I want to create a detailed service request so providers can understand my needs
-As a seeker, I want to view provider verification status to ensure safety
-As a seeker, I want to communicate with providers before booking
-As a seeker, I want to make secure payments through the platform
-As a seeker, I want to receive email updates about my request status
+### Service Providers
 
-Service Providers
+- As a provider, I want to complete identity verification to offer services
+- As a provider, I want to set up my payment account securely
+- As a provider, I want to browse and filter available requests
+- As a provider, I want to communicate with potential clients
+- As a provider, I want to receive secure payments for my services
 
-As a provider, I want to complete identity verification to offer services
-As a provider, I want to set up my payment account securely
-As a provider, I want to browse and filter available requests
-As a provider, I want to communicate with potential clients
-As a provider, I want to receive secure payments for my services
+## Business Rules
 
-Business Rules
+### Provider Verification:
 
-Provider Verification:
+- Mandatory Veriff identity verification
+- Required Stripe Connected account setup
+- Profile approval process
 
-Mandatory Veriff identity verification
-Required Stripe Connected account setup
-Profile approval process
+### Payment Processing:
 
+- Upfront payment from seekers
+- Platform fee deduction
+- Hold period for dispute resolution
+- Automated provider payout
 
-Payment Processing:
+### Communication:
 
-Upfront payment from seekers
-Platform fee deduction
-Hold period for dispute resolution
-Automated provider payout
+- In-app chat only (no external contact sharing)
+- Email notifications for key events
+- Message history retention
 
+## Tech Stack
 
-Communication:
+- Frontend: Next.js 15 with App Router
+- Backend: Next.js Server Actions
+- Database: Supabase (PostgreSQL) with Drizzle
+- Authentication: Supabase Auth
+- Real-time Features: Supabase Realtime
 
-In-app chat only (no external contact sharing)
-Email notifications for key events
-Message history retention
+## Additional Services:
 
+- Veriff for identity verification
+- Stripe for payments
+- Resend for email notifications
 
-Tech Stack
+# User Journey Documentation
 
-Frontend: Next.js 15 with App Router
-Backend: Next.js Server Actions
-Database: Supabase (PostgreSQL) with Drizzle
-Authentication: Supabase Auth
-Real-time Features: Supabase Realtime
+## 1. Service Provider Journey
 
-Additional Services:
+### Login or Sign-Up
 
-Veriff for identity verification
-Stripe for payments
-Resend for email notifications
+- Log in or sign up.
+- If not signed up:
+    - Set up a free account.
+    - Enter name, email address, and password.
+
+### Register to be a Travel Buddy
+
+- Click on 'Register as a Travel Buddy'.
+- If ID verification is not completed:
+    - Upload a valid government-issued photo ID.
+    - Verification is processed.
+- Once verified:
+- Enter trip details (destination, departure date and time, arrival date and time, airline transit info).
+- Add additional details (languages spoken, assistance capabilities, dietary preferences).
+- Enter the asking price.
+- Display trip summary and confirm.
+- Option to add a return trip.
+- Submit and display success message.
+
+### Register to be a Courier Buddy
+
+- Click on 'Register as a Courier Buddy'.
+- Option to reuse existing travel buddy profile if available.
+- If ID verification is not completed:
+    - Upload a valid government-issued photo ID.
+    - Verification is processed.
+- Once verified:
+    - Enter trip details.
+    - Specify courier type (documents, non-perishables, clothes, electronics, misc items).
+    - Add additional information (packaged goods, light electronics, etc.).
+    - Display trip summary and confirm.
+    - Option to add a return trip.
+    - Submit and display success message.
+
+## 2. Service Seeker Journey
+
+### Login or Sign-Up
+
+- Log in or sign up.
+- If not signed up:
+    - Set up a free account.
+    - Enter name, email address, and password.
+
+### Request for a Travel Buddy
+
+- Click on 'I want a Travel Buddy'.
+- Enter travel details (from, to, date) and search.
+- Apply additional filters (language, gender) if needed.
+- Select a buddy and click 'Request'.
+- Enter additional passenger info and address.
+- Confirm and submit.
+
+### Request for a Traveler Courier
+
+- Click on 'I want a Buddy Courier'.
+- Enter travel details and search.
+- Specify courier type (documents, clothes, electronics, etc.).
+- Confirm if documents/invoices are available for customs.
+- Select a buddy and click 'Request'.
+- Provide package details (weight, pictures, description).
+- Confirm and submit.
+
+### Payment
+
+- Go to the Buddy/Courier request.
+- Click 'Confirm and Pay'.
+- Add/update payment method if needed.
+- Complete the payment.
+- Receive payment confirmation and email notification.
+
+### Review/Rating for the Buddy
+
+24 hours after the trip completion:
+- Receive email notification to rate the buddy.
+- Click the link to navigate to the buddy profile.
+- If not logged in, log in.
+- Select star ratings and provide feedback.
+- Submit the review.
