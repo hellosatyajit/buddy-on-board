@@ -22,10 +22,15 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
+// Constants for file upload limitations and pagination
 const MESSAGES_PER_PAGE = 50;
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_PDF_SIZE = 10 * 1024 * 1024; // 10MB
 
+/**
+ * Validates the current user's authentication status.
+ * @throws Error if user is not authenticated
+ */
 async function validateUser() {
   const supabase = await createClient();
   const {
@@ -40,6 +45,10 @@ async function validateUser() {
   return user;
 }
 
+/**
+ * Broadcasts real-time events to all participants in a conversation.
+ * Used for instant message delivery and conversation updates.
+ */
 async function broadcastEvent(
   supabase: any,
   event: keyof ChatSubscriptionEvents,
@@ -57,6 +66,12 @@ async function broadcastEvent(
   }
 }
 
+/**
+ * Sends a text message in a conversation and updates conversation state.
+ * Handles real-time notifications and unread message counts.
+ * 
+ * @throws Error if message sending fails
+ */
 export async function sendMessage({
   conversationId,
   content,
@@ -108,6 +123,13 @@ export async function sendMessage({
   }
 }
 
+/**
+ * Sends a message with an attachment (image or PDF).
+ * Handles file validation, upload to storage, and message creation.
+ * Supports rollback of file upload if message creation fails.
+ * 
+ * @throws Error if file type/size is invalid or upload fails
+ */
 export async function sendMessageWithAttachment({
   conversationId,
   content,
@@ -204,6 +226,11 @@ export async function sendMessageWithAttachment({
   }
 }
 
+/**
+ * Retrieves paginated messages for a conversation.
+ * Includes message attachments and handles soft-deleted messages.
+ * Messages are ordered by creation date (newest first).
+ */
 export async function getMessages({
   conversationId,
   limit = MESSAGES_PER_PAGE,
@@ -351,6 +378,13 @@ export async function getConversations() {
   }
 }
 
+/**
+ * Creates a new conversation between participants.
+ * Initializes conversation state and participant records.
+ * Links conversation to a booking if provided.
+ * 
+ * @throws Error if participant validation fails
+ */
 export async function createConversation(
   participantIds: string[],
   bookingId: string
@@ -418,6 +452,10 @@ export async function createConversation(
   }
 }
 
+/**
+ * Marks all unread messages in a conversation as read for the current user.
+ * Updates user's conversation state and last seen timestamp.
+ */
 export async function markConversationAsRead(conversationId: string) {
   const user = await validateUser();
 

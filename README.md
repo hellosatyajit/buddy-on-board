@@ -85,5 +85,3 @@ pnpm dev
 - Email: Resend
 - Identity Verification: Veriff
 - Payments: Stripe
-
-## TODOs

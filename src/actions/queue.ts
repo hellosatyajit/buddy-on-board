@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { NotificationEmail } from '@/components/emails/notification-email';
 import { Resend } from 'resend';
 
+// Initialize Supabase client for queue operations
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -9,6 +10,10 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/**
+ * Structure of messages in the email notification queue.
+ * Each message contains user info and notification details.
+ */
 interface EmailQueueMessage {
   userId: string;
   title: string;
@@ -17,6 +22,12 @@ interface EmailQueueMessage {
   notificationId: string;
 }
 
+/**
+ * Adds an email notification to the PGMQ queue for asynchronous processing.
+ * Uses Supabase's RPC to interact with the PostgreSQL-based message queue.
+ * 
+ * @throws Error if queue operation fails
+ */
 export async function enqueueEmail(message: EmailQueueMessage) {
   try {
     // Add message to the email_notifications queue
@@ -30,6 +41,15 @@ export async function enqueueEmail(message: EmailQueueMessage) {
   }
 }
 
+/**
+ * Long-running worker that processes the email notification queue.
+ * - Polls queue with visibility timeout to prevent duplicate processing
+ * - Sends emails via Resend with React templates
+ * - Updates notification status in database
+ * - Implements error handling and retry mechanism
+ * 
+ * Note: This should run in a separate worker process/container
+ */
 export async function processEmailQueue() {
   while (true) {
     try {

@@ -21,6 +21,13 @@ export interface UserMetadata {
   countryOfResidence: string;
 }
 
+/**
+ * Authenticates a user by signing them in with their email and password.
+ * If successful, the user is redirected to the home page.
+ *
+ * @param {AuthFormData} formData - Contains the user's email and password.
+ * @returns {Object} - Returns an error object if authentication fails.
+ */
 export async function signIn(formData: AuthFormData) {
   const supabase = await createClient();
 
@@ -34,6 +41,13 @@ export async function signIn(formData: AuthFormData) {
   redirect("/");
 }
 
+/**
+ * Registers a new user by creating an account with their email and password.
+ * If successful, a new user record is created in the database.
+ *
+ * @param {AuthFormData} formData - Contains the user's email and password.
+ * @returns {Object} - Returns an error object if registration fails or success status.
+ */
 export async function signUp(formData: AuthFormData) {
   const supabase = await createClient();
 
@@ -67,6 +81,13 @@ export async function signUp(formData: AuthFormData) {
   return { success: true };
 }
 
+/**
+ * Updates the metadata of the currently authenticated user.
+ * If successful, the user's information is updated in both Supabase and the database.
+ *
+ * @param {UserMetadata} metadata - Contains the user's updated information.
+ * @returns {Object} - Returns an error object if the update fails.
+ */
 export async function updateUserMetadata(metadata: UserMetadata) {
   const supabase = await createClient();
 
@@ -104,6 +125,12 @@ export async function updateUserMetadata(metadata: UserMetadata) {
   redirect("/");
 }
 
+/**
+ * Signs out the currently authenticated user.
+ * If successful, the user is redirected to the home page.
+ *
+ * @returns {Object} - Returns an error object if sign-out fails.
+ */
 export async function signOut() {
   const supabase = await createClient();
   
@@ -117,6 +144,13 @@ export async function signOut() {
   redirect("/");
 }
 
+/**
+ * Initiates a password reset process by sending a reset email to the user.
+ * If successful, the user receives an email with instructions to reset their password.
+ *
+ * @param {string} email - The email address of the user requesting a password reset.
+ * @returns {Object} - Returns an error object if the request fails or success status.
+ */
 export async function forgotPassword(email: string) {
   const supabase = await createClient();
 
@@ -131,6 +165,13 @@ export async function forgotPassword(email: string) {
   return { success: true };
 }
 
+/**
+ * Resets the user's password to a new value.
+ * If successful, the user is updated with the new password.
+ *
+ * @param {string} password - The new password for the user.
+ * @returns {Object} - Returns an error object if the reset fails.
+ */
 export async function resetPassword(password: string) {
   const supabase = await createClient();
 

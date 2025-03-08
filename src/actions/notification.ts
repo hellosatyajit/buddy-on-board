@@ -9,6 +9,12 @@ import { enqueueEmail } from "@/actions/queue";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+/**
+ * Creates and sends a notification to a user through both in-app and email channels.
+ * Validates notification type, creates a database record, and queues an email if the user has an email address.
+ * 
+ * @throws Error if notification type is invalid or user is not found
+ */
 export async function sendNotification({
   userId,
   type,
@@ -81,6 +87,10 @@ export async function sendNotification({
   }
 }
 
+/**
+ * Retrieves all active notifications for a user, ordered by creation date.
+ * Includes notification type category and excludes soft-deleted notifications.
+ */
 export async function getNotifications(userId: string): Promise<NotificationRecord[]> {
   try {
     return await db
@@ -114,6 +124,10 @@ export async function getNotifications(userId: string): Promise<NotificationReco
   }
 }
 
+/**
+ * Marks a notification as read and updates the read timestamp.
+ * Used for tracking user interaction with notifications.
+ */
 export async function markNotificationAsRead(notificationId: string) {
   try {
     const [notification] = await db
@@ -132,6 +146,10 @@ export async function markNotificationAsRead(notificationId: string) {
   }
 }
 
+/**
+ * Soft deletes a notification by setting its deletedAt timestamp.
+ * Notifications are never permanently deleted to maintain audit trail.
+ */
 export async function deleteNotification(notificationId: string) {
   try {
     const [notification] = await db
